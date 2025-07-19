@@ -34,11 +34,11 @@ Project Structure:
  Roles:
 
 CEO:
-Creates tasks
-Assigns tasks to employees
-Tracks progress
+Creates tasks.
+Assigns tasks to employees.
+Tracks progress.
 
 Employee:
-Views assigned tasks
-Marks tasks as don
+Views assigned tasks.
+Marks tasks as don.
  
