@@ -1,3 +1,6 @@
+from model.tools.validation import Validation
+
+
 class Task:
     def __init__(self, id, description, deadline):
         self.id = id
@@ -5,14 +8,11 @@ class Task:
         self.deadline = deadline
         self.completed = False
 
-    def save(self):
-        pass
+    def validate(self):
+        validator = Validation()
+        return validator.task_validator(self)
 
-    def edit(self):
-        pass
 
-    def delete(self):
-        pass
+    def to_tuple(self):
+        return (self.id, self.description, self.deadline)
 
-    def add(self):
-        pass
