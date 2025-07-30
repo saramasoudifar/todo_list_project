@@ -2,15 +2,15 @@ from model.tools.validation import *
 
 
 class TodoList:
-    def __init__(self, id, date, employee_username):
-        self.id = id
+    def __init__(self, list_id, date, employee_username):
+        self.list_id = list_id
         self.date = date
         self.employee_username = employee_username
         self.tasks = []
 
 
     def __repr__(self):
-        return f'todo list number {self.id}, date: {self.date}, employee : {self.employee_username}'
+        return f'todo list number {self.list_id}, date: {self.date}, employee : {self.employee_username}'
 
 
     def add_task(self,task):
@@ -18,12 +18,12 @@ class TodoList:
 
 
     @property
-    def id(self):
-        return self._id
+    def list_id(self):
+        return self._list_id
 
-    @id.setter
-    def id(self, value):
-        self._id = value
+    @list_id.setter
+    def list_id(self, value):
+        self._list_id = value
 
 
     @property

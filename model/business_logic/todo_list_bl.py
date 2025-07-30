@@ -3,8 +3,8 @@ from model.entity.todo import TodoList
 from datetime import datetime
 
 class TodoListBl:
-    def save(self, id, date, employee_username):
-        todo_list = TodoList(id, date, employee_username)
+    def save(self, list_id, date, employee_username):
+        todo_list = TodoList(list_id, date, employee_username)
         if not todo_list.date < datetime.now():
             todo_da = TodoListDa()
             todo_da.save(todo_list)
@@ -12,21 +12,21 @@ class TodoListBl:
             raise ValueError('date should be in present or future')
 
 
-    def edit(self, id, date, employee_username):
+    def edit(self, list_id, date, employee_username):
         todo_da = TodoListDa()
-        todo_da.edit(id, date, employee_username)
+        todo_da.edit(list_id, date, employee_username)
 
 
-    def delete(self, id):
+    def delete(self, list_id):
         todo_da = TodoListDa()
-        todo_da.delete(id)
+        todo_da.delete(list_id)
 
 
-    def send(self, id, date, employee_username):
+    def send(self, list_id, date, employee_username):
         todo_da = TodoListDa()
-        todo_da.send(id, date, employee_username)
+        todo_da.send(list_id, date, employee_username)
 
 
-    def update(self, id, date, employee_username):
+    def update(self, list_id, date, employee_username):
         todo_da = TodoListDa()
-        todo_da.update(id, date, employee_username)
+        todo_da.update(list_id, date, employee_username)

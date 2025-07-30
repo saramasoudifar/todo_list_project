@@ -3,19 +3,19 @@ from model.tools.validation import *
 
 
 class Task:
-    def __init__(self, id, description, deadline):
-        self.id = id
+    def __init__(self, task_id, description, deadline, status):
+        self.task_id = task_id
         self.description = description
         self.deadline = deadline
-        self.completed = False
+        self.status = status
 
 
     def __repr__(self):
-        return f'task number {self.id} , deadline: {self.deadline},status : {self.completed}'
+        return f'task number {self.task_id} , deadline: {self.deadline},status : {self.status}'
 
 
     def to_tuple(self):
-        return (self.id, self.description, self.deadline)
+        return (self.task_id, self.description, self.deadline, self.status)
 
 
     def pin_task_to_list(self,todo_list_id):
@@ -25,12 +25,12 @@ class Task:
 #todo:mikham id ye todo list ro be task bedim ke bere ru un list beshine
 
     @property
-    def id(self):
-        return self._id
+    def task_id(self):
+        return self._task_id
 
-    @id.setter
-    def id(self, value):
-        self._id = value
+    @task_id.setter
+    def task_id(self, value):
+        self._task_id = value
 
 
     @property
@@ -51,5 +51,13 @@ class Task:
     def deadline(self, value):
         date_deadline_validator(value)
         self._deadline = value
+
+    @property
+    def status(self):
+        return self._status
+
+    @status.setter
+    def status(self, value):
+        self._status = value
 
 

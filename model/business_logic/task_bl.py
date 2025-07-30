@@ -3,8 +3,8 @@ from model.entity.task import Task
 from datetime import datetime
 
 class TaskBl:
-    def save(self,  id, description, deadline):
-        task = Task(id , description, deadline)
+    def save(self,  task_id, description, deadline):
+        task = Task(task_id , description, deadline)
         if not task.deadline < datetime.now():
             task_da = TaskDA()
             task_da.save(task)
@@ -15,10 +15,10 @@ class TaskBl:
         task_da = TaskDA()
         task_da.edit(task)
 
-    def delete(self, id):
+    def delete(self, task_id):
         task_da = TaskDA()
-        task_da.delete(id)
+        task_da.delete(task_id)
 
-    def add(self, id):
+    def add(self, task_id):
         task_da = TaskDA()
-        task_da.add(id)
+        task_da.add(task_id)
