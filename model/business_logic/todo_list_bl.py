@@ -3,30 +3,27 @@ from model.entity.todo import TodoList
 from datetime import datetime
 
 class TodoListBl:
+    def __init__(self):
+        self.todo_da = TodoListDa()
+
     def save(self, list_id, date, employee_username):
         todo_list = TodoList(list_id, date, employee_username)
         if not todo_list.date < datetime.now():
-            todo_da = TodoListDa()
-            todo_da.save(todo_list)
+            self.todo_da.save(todo_list)
         else:
             raise ValueError('date should be in present or future')
 
-
-    def edit(self, list_id, date, employee_username):
-        todo_da = TodoListDa()
-        todo_da.edit(list_id, date, employee_username)
-
+    def edit(self, todo_list: TodoList):
+        self.todo_da.edit(todo_list)
 
     def delete(self, list_id):
-        todo_da = TodoListDa()
-        todo_da.delete(list_id)
+        self.todo_da.delete(list_id)
 
-
-    def send(self, list_id, date, employee_username):
-        todo_da = TodoListDa()
-        todo_da.send(list_id, date, employee_username)
-
-
-    def update(self, list_id, date, employee_username):
-        todo_da = TodoListDa()
-        todo_da.update(list_id, date, employee_username)
+    def get_tasks_for_employee(self, employee_username):
+        todo_lists = self.todo_da.read_from_file()
+        if not todo_lists:
+            return []
+        tasks = []
+        for todo_list in todo_lists:
+            tasks.extend(todo_list.get_tasks_for_user(employee_username))
+        return tasks

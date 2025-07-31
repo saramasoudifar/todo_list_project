@@ -17,16 +17,12 @@ def user_validator(user):
 
 
 def task_validator(task):
+    if not (type(task.title) == str and re.match(r'^[a-zA-Z\s]{3,30}$', task.title)):
+        raise ValueError('Invalid title')
+
     if not (type(task.description) == str and re.match(r'^[a-zA-Z0-9_@.,:]{3,200}$', task.description)):
         raise ValueError(
             'task should be in english,only allowed to use (a-zA-Z0-9_@.,:) and 3 to 200 character long')
-
-
-def todo_list_validator(todo_list):
-    if not (type(todo_list.employee_username) == str and re.match(r'^[a-zA-Z0-9_]{8,15}$',
-                                                                  todo_list.employee_username)):
-        raise ValueError('Invalid employee username')
-
 
 def date_deadline_validator(date):
     if not datetime.strptime(date, '%Y-%m-%d').date():

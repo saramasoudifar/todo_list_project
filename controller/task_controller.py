@@ -1,36 +1,34 @@
 from model.business_logic.task_bl import TaskBl
 
-
-
 class TaskController:
-    def save(self, task_id, description, deadline):
+    def save(self, task_id, title, description, deadline, assigned_to):
         try:
             task_bl = TaskBl()
-            task_bl.save(task_id, description, deadline)
-            return 'Task saved successfully'
+            task_bl.save(task_id, title, description, deadline, assigned_to)
+            return True, 'Task saved successfully'
         except Exception as e:
-            return f'Error : {str(e)}'
+            return False, f'Error: {str(e)}'
 
     def edit(self, task):
         try:
             task_bl = TaskBl()
             task_bl.edit(task)
-            return 'Task edited successfully'
+            return True, 'Task edited successfully'
         except Exception as e:
-            return f'Error : {str(e)}'
+            return False, f'Error: {str(e)}'
 
     def delete(self, task_id):
         try:
             task_bl = TaskBl()
             task_bl.delete(task_id)
-            return 'Task deleted successfully'
+            return True, 'Task deleted successfully'
         except Exception as e:
-            return f'Error : {str(e)}'
+            return False, f'Error: {str(e)}'
 
-    def add(self, task_id):
+    def add(self, task_id, title, description, deadline, assigned_to):
         try:
             task_bl = TaskBl()
-            task_bl.add(task_id)
-            return 'Task deleted successfully'
+            task_bl.add(task_id, title, description, deadline, assigned_to)
+            return True, 'Task added successfully'
         except Exception as e:
-            return f'Error : {str(e)}'
+            return False, f'Error: {str(e)}'

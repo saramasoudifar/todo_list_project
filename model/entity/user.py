@@ -54,13 +54,5 @@ class User:
         self._password = value
 
 
-    @property
-    def role(self):
-        return self._role
-
-    @role.setter
-    def role(self, value):
-        user_validator(value)
-        self._role = value
 
 

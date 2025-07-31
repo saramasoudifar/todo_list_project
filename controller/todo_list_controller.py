@@ -3,46 +3,46 @@ from model.business_logic.todo_list_bl import TodoListBl
 
 class TodoListController:
 
-    def save(self, list_id, date, employee_username):
+    def save(self):
         try:
-            todo_list = TodoList(list_id, date, employee_username)
+            todo_list = TodoList()
             todo_bl = TodoListBl()
-            todo_bl.save(list_id, date, employee_username)
-            return ' Saved successfully!'
+            todo_bl.save(todo_list)
+            return 'Saved successfully!'
         except Exception as e:
             return f'Error: {str(e)}'
 
-    def edit(self,  list_id, date, employee_username):
+    def edit(self):
         try:
-            todo_list = TodoList(list_id, date, employee_username)
+            todo_list = TodoList()
             todo_bl = TodoListBl()
-            todo_bl.edit(list_id, date, employee_username)
+            todo_bl.edit(todo_list)
             return ' Todo list edited successfully!'
         except Exception as e:
             return f'Error: {str(e)}'
 
-    def delete(self, list_id):
+    def delete(self):
         try:
             todo_bl = TodoListBl()
-            todo_bl.delete(list_id)
+            todo_bl.delete()
             return ' Todo list deleted successfully!'
         except Exception as e:
             return f'Error: {str(e)}'
 
-    def send(self,list_id, date, employee_username):
+    def send(self):
         try:
-            todo_list = TodoList(list_id, date, employee_username)
+            todo_list = TodoList()
             todo_bl = TodoListBl()
-            todo_bl.send(list_id, date, employee_username)
+            todo_bl.send(todo_list)
             return ' Todo list has been sent to {todo_list.employee_username}!'
         except Exception as e:
             return f'Error: {str(e)}'
 
-    def update(self,list_id, date, employee_username):
+    def update(self):
         try:
-            todo_list = TodoList(list_id, date, employee_username)
+            todo_list = TodoList()
             todo_bl = TodoListBl()
-            todo_bl.update(list_id, date, employee_username)
+            todo_bl.update(todo_list)
             return ' Todo list updated!}!'
         except Exception as e:
             return f'Error: {str(e)}'

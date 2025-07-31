@@ -59,8 +59,8 @@ class UserView:
         Checkbutton(self.win, text='ceo',variable= self.role,bg="LightSkyBlue4").place(x=150, y=220)
         Checkbutton(self.win, text='employee',variable= self.role,bg="LightSkyBlue4").place(x=210, y=220)
 
-        Button(self.win, text='enter',command=self.enter_btn).place(x=100, y=335, width=80, height=30)
-        Button(self.win, text='exit',command=self.exit_btn).place(x=220, y=335, width=80, height=30)
+        Button(self.win, text='enter',command=self.enter_btn,bg="seashell").place(x=100, y=335, width=80, height=30)
+        Button(self.win, text='exit',command=self.exit_btn,bg="seashell").place(x=220, y=335, width=80, height=30)
 
         self.win.mainloop()
 

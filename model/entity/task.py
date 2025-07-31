@@ -1,37 +1,31 @@
-from model.entity.todo import TodoList
 from model.tools.validation import *
 
 
 class Task:
-    def __init__(self, task_id, description, deadline, status):
+    def __init__(self, task_id, title, description, deadline, assigned_to):
         self.task_id = task_id
+        self.title = title
         self.description = description
         self.deadline = deadline
-        self.status = status
-
+        self.assigned_to = assigned_to
+        self.is_done = False
 
     def __repr__(self):
-        return f'task number {self.task_id} , deadline: {self.deadline},status : {self.status}'
-
+        return f'task number {self.task_id} ,title :{self.title}, deadline: {self.deadline},status : {self.is_done}'
 
     def to_tuple(self):
-        return (self.task_id, self.description, self.deadline, self.status)
+        return (self.task_id, self.description, self.deadline, self.is_done)
 
 
-    def pin_task_to_list(self,todo_list_id):
-       pass
-
-
-#todo:mikham id ye todo list ro be task bedim ke bere ru un list beshine
 
     @property
-    def task_id(self):
-        return self._task_id
+    def title(self):
+        return self._title
 
-    @task_id.setter
-    def task_id(self, value):
-        self._task_id = value
-
+    @title.setter
+    def title(self, value):
+        task_validator(value)
+        self._title = value
 
     @property
     def description(self):
@@ -41,7 +35,6 @@ class Task:
     def description(self, value):
         task_validator(value)
         self._description = value
-
 
     @property
     def deadline(self):
@@ -53,11 +46,11 @@ class Task:
         self._deadline = value
 
     @property
-    def status(self):
-        return self._status
+    def assigned_to(self):
+        return self._assigned_to
 
-    @status.setter
-    def status(self, value):
-        self._status = value
+    @assigned_to.setter
+    def assigned_to(self, value):
+        self._assigned_to = value
 
 

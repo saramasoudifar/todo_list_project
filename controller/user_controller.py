@@ -8,7 +8,7 @@ class UserController:
             user = User(name,family,username,password,role)
             user_bl = UserBl()
             user_bl.save(name,family,username,password,role)
-            return 'User Saved!'
+            return f'User Saved!\n{user}'
         except Exception as e:
             return f'Error: {str(e)}'
 
@@ -16,7 +16,7 @@ class UserController:
         try:
             user_bl = UserBl()
             user_bl.find_by_username_pass(role, username, password)
-            return 'User Found!'
+            return f'User Found!'
         except Exception as e:
             return f'Error: {str(e)}'
 
