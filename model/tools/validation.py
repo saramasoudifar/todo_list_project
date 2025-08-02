@@ -15,6 +15,10 @@ def user_validator(user):
     if not (type(user.password) == str and re.match(r'^[a-zA-Z0-9@#$!%&]{3,30}$', user.password)):
         raise ValueError('Invalid password')
 
+    if not (type(user.role) == str and re.match(r'^(ceo|employee)$', user.role)):
+        raise ValueError('Invalid role')
+
+
 
 def task_validator(task):
     if not (type(task.title) == str and re.match(r'^[a-zA-Z\s]{3,30}$', task.title)):

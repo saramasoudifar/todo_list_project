@@ -3,27 +3,39 @@ from model.business_logic.user_bl import UserBl
 
 
 class UserController:
-    def save(self, name,family,username,password,role):
+    def save(self, code, name, family, username, password, role):
         try:
-            user = User(name,family,username,password,role)
+            user = User(code, name, family, username, password, role)
             user_bl = UserBl()
-            user_bl.save(name,family,username,password,role)
-            return f'User Saved!\n{user}'
+            user_bl.save(user)
         except Exception as e:
-            return f'Error: {str(e)}'
+            raise ValueError(f'Error saving user {code}: {e}')
 
-    def find_by_username_pass(self,role,username,password):
+    def edit(self, code, name, family, username, password, role):
         try:
+            user = User(code, name, family, username, password, role)
             user_bl = UserBl()
-            user_bl.find_by_username_pass(role, username, password)
-            return f'User Found!'
+            user_bl.edit(user)
         except Exception as e:
-            return f'Error: {str(e)}'
+            raise ValueError(f'Error editing user {code}: {e}')
 
-    def enter(self, name,family,username,password,role):
+    def delete(self, code):
         try:
             user_bl = UserBl()
-            user_bl.enter(name,family,username,password,role)
-            return 'welcome!'
+            user_bl.edit(code)
         except Exception as e:
-            return f'Error: {str(e)}'
+            raise ValueError(f'Error deleting user {code}: {e}')
+
+    def find_all(self):
+        try:
+            user_bl = UserBl()
+            user_bl.find_all()
+        except Exception as e:
+            raise ValueError(f'Error : {e}')
+
+    def find_by_username(self, username):
+        try:
+            user_bl = UserBl()
+            user_bl.find_by_username(username)
+        except Exception as e:
+            raise ValueError(f'Error finding user {username}: {e}')

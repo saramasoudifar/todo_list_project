@@ -15,7 +15,15 @@ class Task:
 
     def to_tuple(self):
         return (self.task_id, self.description, self.deadline, self.is_done)
+#todo
 
+    @property
+    def id(self):
+        return self._task_id
+
+    @id.setter
+    def id(self, value):
+        self._task_id = value
 
 
     @property

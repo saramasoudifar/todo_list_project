@@ -5,8 +5,14 @@ import tkinter.messagebox as msg
 
 
 class EmployeeView:
-    def __init__(self, username, task_list):
-        self.win = Toplevel()
+    def save_btn(self):
+        pass
+
+    def update_btn(self):
+        pass
+
+    def __init__(self,username , task_list):
+        self.win = Tk()
         self.win.title("Employee View")
         self.win.geometry("800x570")
 
@@ -35,18 +41,18 @@ class EmployeeView:
         self.table.column(3, width=170)
         self.table.column(4, width=150)
 
-
         for task in task_list:
-            self.table.insert('', END, values=(
-                task['id'],
-                task['description'],
-                task['deadline'],
-                task['status']
-            ))
+             self.table.insert('', END, values=(
+             task['id'],
+             task['description'],
+             task['deadline'],
+             task['status']
+             ))
 
-        Button(self.win, text='Save', command=self.save_btn).place(x=100, y=400, height=40, width=100)
+        Button(self.win, text='Save', command=self.save_btn).place(x=90, y=400, height=40, width=100)
+        Button(self.win , text='Update', command=self.update_btn).place(x=220, y=400, height=40, width=100)
 
-    def save_btn(self):
-        msg.showinfo("Saved", "Tasks saved successfully.")
+        self.win.mainloop()
 
 
+employee_1 = EmployeeView('sara_masoudi',[])

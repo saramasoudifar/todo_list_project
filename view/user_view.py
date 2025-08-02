@@ -15,9 +15,9 @@ class UserView:
             self.role.get()
         )
         if status:
-            msg.showinfo('User Entered!','Welcome!')
+            msg.showinfo('Success!',message)
         else:
-            msg.showerror('Error!','Entrance error!try again!')
+            msg.showerror('Error!',message)
 
 
     def exit_btn(self):

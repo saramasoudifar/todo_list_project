@@ -1,17 +1,30 @@
-from model.data_access.user_da import UserDa
+from model.repository.user_repository import UserRepository
+
 
 class UserBl:
-    def save(self, name,family,username,password,role):
-            user_da = UserDa()
-            user_da.save(name,family,username,password,role)
+    def save(self, user):
+        if user.username == f'{user.name}_{user.family}':
+            user_rep = UserRepository()
+            user_rep.save(user)
+        else:
+            raise ValueError('Invalid username')
 
-    def find_by_username_pass(self, role, username, password):
-        user_da = UserDa()
-        user_da.find_by_username_pass(role, username, password)
+    def edit(self, user):
+        if user.username == f'{user.name}_{user.family}':
+            user_rep = UserRepository()
+            user_rep.save(user)
+        else:
+            raise ValueError('Invalid username')
 
-    def enter(self,name,family,username,password,role):
-        user_da = UserDa()
-        user_da.enter(name,family,username,password,role)
 
+    def delete(self):
+        user_rep = UserRepository()
+        user_rep.delete(self)
 
-#todo:mishe inja goft ke age user save bud savesh nakon?
+    def find_all(self):
+        user_rep = UserRepository()
+        user_rep.find_all()
+
+    def find_by_username(self, username):
+        user_rep = UserRepository()
+        user_rep.find_by_username(username)

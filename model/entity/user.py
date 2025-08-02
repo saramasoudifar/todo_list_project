@@ -1,7 +1,8 @@
 from model.tools.validation import *
 
 class User:
-    def __init__(self,name,family,username,password,role):
+    def __init__(self,code ,name,family,username,password,role):
+        self.code = code
         self.name = name
         self.family = family
         self.username = username
@@ -10,8 +11,16 @@ class User:
 
 
     def __repr__(self):
-        return f'the user {self.name} {self.family}.role: {self.role}'
+        return f'the user {self.name} {self.family}.code : {self.code}.role: {self.role}'
 
+
+    @property
+    def code(self):
+        return self._code
+
+    @code.setter
+    def code(self, value):
+        self._code = value
 
 
     @property
@@ -46,12 +55,21 @@ class User:
 
     @property
     def password(self):
-        return self._password
+        return '********'
 
     @password.setter
     def password(self, value):
         user_validator(value)
         self._password = value
+
+    @property
+    def role(self):
+        return self._role
+
+    @role.setter
+    def role(self, value):
+        user_validator(value)
+        self._role = value
 
 
 

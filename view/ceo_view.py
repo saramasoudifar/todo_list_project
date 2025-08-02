@@ -1,10 +1,10 @@
 from tkinter import *
 import tkinter.ttk as ttk
 from controller.task_controller import TaskController
-from controller.todo_list_controller import TodoListController
+from controller.todolist_controller import TodoListController
 from model.entity.task import Task
 import tkinter.messagebox as msg
-from model.entity.todo import TodoList
+from model.entity.todolist import TodoList
 from PIL import Image, ImageTk
 import os
 import pickle
@@ -32,9 +32,6 @@ class CeoView:
         )
 
         if status:
-            self.task = Task(task_id, title, description_value, deadline, assigned_to)
-            self.task.is_done = is_done
-
             self.table.insert('', END, values=(
                 task_id,
                 title,
@@ -50,19 +47,23 @@ class CeoView:
             msg.showerror('Error!', 'Task could not be added!')
 
     def save_btn(self):
+        todo_list = TodoList()
         todo_list_controller = TodoListController()
-        status, message = todo_list_controller.save()
+        status, message = todo_list_controller.save(
+            todo_list.tasks.get()
+        )
         if status:
-            msg.showinfo('Success!', 'Todo list saved successfully!')
+            msg.showinfo('Success!', message)
         else:
-            msg.showerror('Error!', 'TodoList could not be saved!')
+            msg.showerror('Error!', message)
 
     def load_employees(self):
-        if not os.path.exists("employees.dat"):
+        if not os.path.exists():
             return []
-        with open("employees.dat", "rb") as f:
-            employees = pickle.load(f)
-            return [emp.username for emp in employees]
+        with open(, "rb") as f:
+           employees = pickle.load(f)
+           return [emp.username for emp in employees]
+        # todo
 
     def load_tasks_for_employee(self, employee_username):
         selected_username = self.employees_combo.get()
@@ -77,6 +78,7 @@ class CeoView:
                     task.assigned_to,
                     task.is_done
                 ))
+        #todo
 
     def clear_btn(self):
         self.table.delete(*self.table.get_children())
@@ -92,6 +94,8 @@ class CeoView:
         if not selected_username:
             msg.showerror("Error", "Please select an employee from the list.")
             return
+
+    #todo
 
         employee_tasks = []
         for row in self.table.get_children():
@@ -109,10 +113,16 @@ class CeoView:
             EmployeeView(selected_username, employee_tasks)
         else:
             msg.showinfo("Info", "No tasks assigned to this employee.")
+            #todo
+
+
     def edit_btn(self):
         pass
 
     def delete_btn(self):
+        pass
+
+    def table_select(self,event):
         pass
 
     def __init__(self):
@@ -161,6 +171,7 @@ class CeoView:
         self.employees_combo.place(x=900, y=350)
         self.employees_combo.bind("<<ComboboxSelected>>", self.load_tasks_for_employee)
 
+
         self.table = ttk.Treeview(self.win, columns=[1, 2, 3, 4, 5, 6], show='headings')
         self.table.place(x=380, y=70)
 
@@ -184,6 +195,7 @@ class CeoView:
         Button(self.win, text='add', command=self.add_btn).place(x=80, y=310, width=230, height=40)
         Button(self.win, text='edit', command=self.edit_btn).place(x=80, y=410, width=110, height=40)
         Button(self.win, text='delete', command=self.delete_btn).place(x=200, y=410, width=110, height=40)
+        Button(self.win,text='add user').place(x=1000, y=20)
 
         self.win.mainloop()
 

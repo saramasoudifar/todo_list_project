@@ -1,18 +1,21 @@
 from model.business_logic.task_bl import TaskBl
+from model.entity.task import Task
 
 class TaskController:
     def save(self, task_id, title, description, deadline, assigned_to):
         try:
+            task = Task(task_id, title, description, deadline, assigned_to)
             task_bl = TaskBl()
             task_bl.save(task_id, title, description, deadline, assigned_to)
             return True, 'Task saved successfully'
         except Exception as e:
             return False, f'Error: {str(e)}'
 
-    def edit(self, task):
+    def edit(self, task_id, title, description, deadline, assigned_to):
         try:
+            task = Task(task_id, title, description, deadline, assigned_to)
             task_bl = TaskBl()
-            task_bl.edit(task)
+            task_bl.edit(task_id, title, description, deadline, assigned_to)
             return True, 'Task edited successfully'
         except Exception as e:
             return False, f'Error: {str(e)}'
@@ -25,10 +28,9 @@ class TaskController:
         except Exception as e:
             return False, f'Error: {str(e)}'
 
-    def add(self, task_id, title, description, deadline, assigned_to):
-        try:
-            task_bl = TaskBl()
-            task_bl.add(task_id, title, description, deadline, assigned_to)
-            return True, 'Task added successfully'
-        except Exception as e:
-            return False, f'Error: {str(e)}'
+    def get_tasks_by_employee(self, username):
+        pass
+
+    #todo
+
+
