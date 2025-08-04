@@ -8,7 +8,7 @@ class TaskBl:
             task_rep = TaskRepository()
             task_rep.save(task)
         else:
-            raise ValueError('Deadline should be in the present or future.')
+            raise ValueError('Deadline should be in the present or near future.')
 
     def edit(self, task):
         task_rep = TaskRepository()
