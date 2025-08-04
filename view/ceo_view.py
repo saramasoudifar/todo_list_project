@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.ttk as ttk
 from controller.task_controller import TaskController
+from controller.todolist_controller import TodoListController
 from controller.user_controller import UserController
 from model.entity.task import Task
 import tkinter.messagebox as msg
@@ -51,9 +52,18 @@ class CeoView:
             msg.showerror('Error!', 'Task could not be added!')
 
     def save_btn(self):
-        pass
+        list_controller = TodoListController()
+        status , message = list_controller.save(
+            self.list_id.get(),
+            self.date.get(),
+            self.owner_username
+        )
+        if status:
+            msg.showinfo('Success!', 'Task saved successfully!')
+        else:
+            msg.showerror('Error!', 'Task could not be saved!')
 
-    # todo:todo list save beshe
+
 
     def clear_btn(self):
         self.table.delete(*self.table.get_children())
@@ -66,11 +76,6 @@ class CeoView:
         task_controller = TaskController()
         max_id = task_controller.max_task_id()
         self.task_id.set(max_id + 1)
-
-    def send_btn(self):
-        pass
-
-    # todo
 
     def edit_btn(self):
         selected_item = self.table.selection()
@@ -144,12 +149,16 @@ class CeoView:
 
         self.task_id = IntVar()
         self.title = StringVar()
-        self.deadline = datetime
+        self.deadline = StringVar()
         self.assigned_to = StringVar()
         self.list_id = IntVar()
         self.is_done = BooleanVar()
 
-        self.date = datetime
+        self.owner_username = self.assigned_to.get()
+
+        self.date = StringVar()
+        now = datetime.now()
+        self.date.set(now.strftime('%Y-%m-%d %H:%M'))
 
         Label(self.win, text='task id').place(x=50, y=25)
         Entry(self.win, textvariable=self.task_id, state='readonly').place(x=110, y=25)
@@ -177,6 +186,14 @@ class CeoView:
         employees = user_controller.employee_username_list()
         self.employees_combo['values'] = employees
 
+        Label(self.win, text='date').place(x=825, y=350)
+        Entry(self.win, textvariable=self.date).place(x=110, y=350)
+        #todo
+
+        Label(self.win, text='TodoList id').place(x=29, y=350)
+        Entry(self.win, textvariable=self.list_id).place(x=110, y=350)
+        #todo
+
         self.table = ttk.Treeview(self.win, columns=[1, 2, 3, 4, 5, 6], show='headings')
         self.table.place(x=380, y=70)
 
@@ -198,7 +215,6 @@ class CeoView:
 
         Button(self.win, text='save', command=self.save_btn).place(x=80, y=360, width=70, height=40)
         Button(self.win, text='clear', command=self.clear_btn).place(x=160, y=360, width=70, height=40)
-        Button(self.win, text='send', command=self.send_btn).place(x=240, y=360, width=70, height=40)
         Button(self.win, text='add', command=self.add_btn).place(x=80, y=310, width=230, height=40)
         Button(self.win, text='edit', command=self.edit_btn).place(x=80, y=410, width=110, height=40)
         Button(self.win, text='delete', command=self.delete_btn).place(x=200, y=410, width=110, height=40)
