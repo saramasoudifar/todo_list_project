@@ -53,3 +53,11 @@ class TaskController:
         except Exception as e:
             return False, f'Error: {str(e)}'
 
+    def get_tasks_by_list_id(self, list_id):
+        try:
+            task_bl = TaskBl()
+            tasks = task_bl.get_tasks_by_list_id(list_id)
+            return True, tasks
+        except Exception as e:
+            return False, f'Error: {str(e)}'
+

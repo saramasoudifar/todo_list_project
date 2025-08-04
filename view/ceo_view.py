@@ -7,6 +7,7 @@ import tkinter.messagebox as msg
 from model.entity.todolist import TodoList
 from PIL import Image, ImageTk
 import os
+from datetime import datetime
 
 
 
@@ -19,6 +20,7 @@ class CeoView:
         description_value = self.description_text.get("1.0", END).strip()
         deadline = self.deadline.get()
         assigned_to = self.assigned_to.get()
+        list_id=self.list_id.get()
         is_done = self.is_done.get()
 
         status, message = task_controller.save(
@@ -27,6 +29,7 @@ class CeoView:
             description_value,
             deadline,
             assigned_to,
+            list_id,
             is_done
         )
         if status:
@@ -36,11 +39,13 @@ class CeoView:
                 description_value,
                 deadline,
                 assigned_to,
+                list_id,
                 is_done
             ))
             msg.showinfo('Success!', 'Task added successfully!')
-            task = Task(task_id, title, description_value, deadline, assigned_to, is_done)
-            todo_list = TodoList()
+            owner_username = assigned_to
+            task = Task(task_id, title, description_value, deadline, assigned_to,list_id, is_done)
+            todo_list = TodoList(list_id, self.date.get() ,owner_username)
             todo_list.add_task(task)
         else:
             msg.showerror('Error!', 'Task could not be added!')
@@ -139,9 +144,12 @@ class CeoView:
 
         self.task_id = IntVar()
         self.title = StringVar()
-        self.deadline = StringVar()
+        self.deadline = datetime
         self.assigned_to = StringVar()
+        self.list_id = IntVar()
         self.is_done = BooleanVar()
+
+        self.date = datetime
 
         Label(self.win, text='task id').place(x=50, y=25)
         Entry(self.win, textvariable=self.task_id, state='readonly').place(x=110, y=25)

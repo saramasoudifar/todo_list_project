@@ -38,3 +38,11 @@ class TaskBl:
         task_rep = TaskRepository()
         id = task_rep.max_task_id()
         return id
+
+    def get_tasks_by_list_id(self, list_id):
+        task_rep = TaskRepository()
+        tasks = task_rep.get_tasks_by_list_id(list_id)
+        if tasks:
+            return tasks
+        else:
+            raise ValueError('TodoList not found')
