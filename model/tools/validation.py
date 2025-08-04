@@ -33,8 +33,9 @@ def date_deadline_validator(date):
         raise ValueError('Invalid date')
 
 
-# todo:bayad username pass ba database check beshe
-# todo:nmidonm chejori role ro inja ja bedam
-# todo:mikham age tarikh eshtebah zad qabul nakone
-# todo:id systemi bashe dasti nabashe
-# todo:tarikh part qabul nakone
+def todolist_validator(todolist):
+    if not (type(todolist.owner_username)== str and re.match(r'^[a-zA-Z\s]{3,30}$', todolist.owner_username)):
+        raise ValueError('Invalid username')
+
+
+

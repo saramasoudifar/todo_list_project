@@ -4,7 +4,7 @@ from datetime import datetime
 
 class TaskBl:
     def save(self, task):
-        if task.deadline >= datetime.now():
+        if datetime.now().year + 1 > task.deadline >= datetime.now():
             task_rep = TaskRepository()
             task_rep.save(task)
         else:
@@ -18,11 +18,23 @@ class TaskBl:
         task_rep = TaskRepository()
         task_rep.delete(task_id)
 
-    def add(self, task):
-        pass
+    def find_by_id(self, task_id):
+        task_rep = TaskRepository()
+        task = task_rep.find_by_id(task_id)
+        if task:
+            return task
+        else:
+            raise ValueError('Task not found')
 
-    def get_tasks_by_employee(self, username):
-        task_da = TaskDA()
-        return task_da.get_tasks_by_employee(username)
+    def find_by_title(self, title):
+        task_rep = TaskRepository()
+        task = task_rep.find_by_title(title)
+        if task:
+            return task
+        else:
+            raise ValueError('Task not found')
 
-#todo:akhari
+    def max_task_id(self):
+        task_rep = TaskRepository()
+        id = task_rep.max_task_id()
+        return id

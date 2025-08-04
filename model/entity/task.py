@@ -2,13 +2,14 @@ from model.tools.validation import *
 
 
 class Task:
-    def __init__(self, task_id, title, description, deadline, assigned_to):
+    def __init__(self, task_id, title, description, deadline, assigned_to,list_id,is_done=False):
         self.task_id = task_id
         self.title = title
         self.description = description
         self.deadline = deadline
         self.assigned_to = assigned_to
-        self.is_done = False
+        self.list_id = list_id
+        self.is_done = is_done
 
     def __repr__(self):
         return f'task number {self.task_id} ,title :{self.title}, deadline: {self.deadline},status : {self.is_done}'
@@ -54,11 +55,22 @@ class Task:
         self._deadline = value
 
     @property
+    def list_id(self):
+        return self._list_id
+
+    @list_id.setter
+    def list_id(self, value):
+        self._list_id = value
+
+
+    @property
     def assigned_to(self):
         return self._assigned_to
 
     @assigned_to.setter
     def assigned_to(self, value):
         self._assigned_to = value
+
+
 
 

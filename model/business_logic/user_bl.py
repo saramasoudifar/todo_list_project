@@ -23,8 +23,31 @@ class UserBl:
 
     def find_all(self):
         user_rep = UserRepository()
-        user_rep.find_all()
+        user_list = user_rep.find_all()
+        return user_list
 
     def find_by_username(self, username):
         user_rep = UserRepository()
-        user_rep.find_by_username(username)
+        user = user_rep.find_by_username(username)
+        if user:
+            return user
+        else:
+            raise ValueError('username not found')
+
+    def find_by_username_password_role(self, username, password,role):
+        user_rep = UserRepository()
+        user = user_rep.find_by_username_password_role(username, password, role)
+        if user:
+            return user
+        else:
+            raise ValueError('user not found')
+
+    def username_list(self):
+        user_rep = UserRepository()
+        user_list = user_rep.username_list()
+        return user_list
+
+    def employee_username_list(self):
+        user_rep = UserRepository()
+        user_list = user_rep.employee_username_list()
+        return user_list

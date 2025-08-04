@@ -1,21 +1,22 @@
 from model.business_logic.task_bl import TaskBl
 from model.entity.task import Task
 
+
 class TaskController:
-    def save(self, task_id, title, description, deadline, assigned_to):
+    def save(self,task_id, title, description, deadline, assigned_to,list_id,is_done):
         try:
-            task = Task(task_id, title, description, deadline, assigned_to)
+            task = Task(task_id, title, description, deadline, assigned_to,list_id,is_done)
             task_bl = TaskBl()
-            task_bl.save(task_id, title, description, deadline, assigned_to)
+            task_bl.save(task)
             return True, 'Task saved successfully'
         except Exception as e:
             return False, f'Error: {str(e)}'
 
-    def edit(self, task_id, title, description, deadline, assigned_to):
+    def edit(self, task_id, title, description, deadline, assigned_to,list_id,is_done):
         try:
-            task = Task(task_id, title, description, deadline, assigned_to)
+            task = Task(task_id, title, description, deadline, assigned_to,list_id,is_done)
             task_bl = TaskBl()
-            task_bl.edit(task_id, title, description, deadline, assigned_to)
+            task_bl.edit(task)
             return True, 'Task edited successfully'
         except Exception as e:
             return False, f'Error: {str(e)}'
@@ -28,9 +29,27 @@ class TaskController:
         except Exception as e:
             return False, f'Error: {str(e)}'
 
-    def get_tasks_by_employee(self, username):
-        pass
+    def find_by_id(self, task_id):
+        try:
+            task_bl = TaskBl()
+            task = task_bl.find_by_id(task_id)
+            return True, task
+        except Exception as e:
+            return False, f'Error: {str(e)}'
 
-    #todo
+    def find_by_title(self, title):
+        try:
+            task_bl = TaskBl()
+            task = task_bl.find_by_title(title)
+            return True, task
+        except Exception as e:
+            return False, f'Error: {str(e)}'
 
+    def max_task_id(self):
+        try:
+            task_bl = TaskBl()
+            max_id = task_bl.max_task_id()
+            return True, max_id
+        except Exception as e:
+            return False, f'Error: {str(e)}'
 

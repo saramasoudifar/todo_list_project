@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter.ttk as ttk
 from controller.user_controller import UserController
 import tkinter.messagebox as msg
+from model.entity.user import User
 
 
 class AddUser:
@@ -16,7 +17,7 @@ class AddUser:
             self.role.get()
         )
         if status:
-            self.table.insert("", END, values = (
+            self.table.insert("", END, values=(
                 self.code.get(),
                 self.name.get(),
                 self.family.get(),
@@ -30,6 +31,10 @@ class AddUser:
             msg.showerror('error', message)
 
     def edit_btn(self):
+        selected_item = self.table.selection()
+        if not selected_item:
+            msg.showerror('Error', 'Please select a user to edit.')
+            return
         usercontroller = UserController()
         status, message = usercontroller.edit(
             self.code.get(),
@@ -47,59 +52,64 @@ class AddUser:
                 self.username.get(),
                 self.password.get(),
                 self.role.get()
-#todo
+                # todo
             ))
             msg.showinfo('success', message)
         else:
             msg.showerror('error', message)
 
     def delete_btn(self):
+        selected_item = self.table.selection()
+        if not selected_item:
+            msg.showerror('Error', 'Please select a user to delete.')
+            return
+        user_code = self.table.item(selected_item[0])['values'][0]
         usercontroller = UserController()
-        status, message = usercontroller.delete(
-            self.code.get()
-        )
+        status, message = usercontroller.delete(user_code)
         if status:
-            pass
-
-         #todo
-
-
-
-
-
-            msg.showinfo('success', message)
+            self.table.delete(selected_item[0])
+            msg.showinfo('Success!', 'Task deleted successfully!')
         else:
-            msg.showerror('error', message)
+            msg.showerror('Error!', 'Task could not be deleted!')
 
     def search_by_username_btn(self):
         usercontroller = UserController()
-        status, message = usercontroller.find_by_username(
+        status, user = usercontroller.find_by_username(
             self.username.get()
         )
         if status:
+            self.table.delete(*self.table.get_children())
+            self.table.insert('', 'end', values=(
+                user.code,
+                user.name,
+                user.family,
+                user.username,
+                user.role
+            ))
 
-            #todo
-
-
-
-
-            msg.showinfo('success', message)
+            msg.showinfo('Success', 'User found!')
         else:
-            msg.showerror('error', message)
+            msg.showerror('Error', 'user not found!')
 
-    def load_all(self):
+    def load_users_to_table(self):
         usercontroller = UserController()
-        status, message = usercontroller.find_all()
-        if status:
-            pass
-  #todo
+        all_users = usercontroller.find_all()
+        for user in all_users:
+            self.table.insert("", END, values=(user))
+
+    def table_select(self):
+        user = User(*self.table.item(self.table.focus())['values'])
+        self.code.set(user.code)
+        self.name.set(user.name)
+        self.family.set(user.family)
+        self.username.set(user.username)
+        self.password.set('********')
+        self.role.set(user.role)
 
     def __init__(self):
         self.win = Tk()
         self.win.title("Employee View")
         self.win.geometry("1100x570")
-
-        self.load_all()
 
         self.code = IntVar()
         self.name = StringVar()
@@ -128,8 +138,11 @@ class AddUser:
         ttk.Combobox(self.win, values=['ceo', 'employee'], state='readonly').place(x=150, y=220)
 
         Label(self.win, text='users').place(x=755, y=335)
-        ttk.Combobox(self.win, values=['users'], state='readonly').place(x=800, y=335)
-        # todo
+        self.users_combo =(ttk.Combobox(self.win,state='readonly'))
+        user_controller = UserController()
+        users = user_controller.username_list()
+        self.users_combo['values'] = users
+
 
         Label(self.win, text='find by username').place(x=690, y=375)
         Entry(self.win, textvariable=self.find_by_family).place(x=800, y=375)
@@ -155,6 +168,9 @@ class AddUser:
         self.table.column(4, width=120)
         self.table.column(5, width=120)
         self.table.column(6, width=100)
+
+        self.load_users_to_table()
+        self.table.bind('<<TreeviewSelect>>', self.table_select)
 
         self.win.mainloop()
 

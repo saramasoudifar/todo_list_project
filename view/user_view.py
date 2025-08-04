@@ -2,22 +2,30 @@ from controller.user_controller import UserController
 from tkinter import *
 import tkinter.messagebox as msg
 from PIL import Image, ImageTk
+from tkinter import ttk
+import os
 
 
 class UserView:
     def enter_btn(self):
         user_controller = UserController()
-        status, message = user_controller.enter(
-            self.name.get(),
-            self.family.get(),
+        status, user_or_message = user_controller.find_by_username_password_role(
             self.username.get(),
             self.password.get(),
             self.role.get()
         )
         if status:
-            msg.showinfo('Success!',message)
+            self.win.destroy()
+            if  user_or_message.role == 'ceo':
+                from view.ceo_view import CeoView
+                self.ceo = CeoView()
+            if user_or_message.role == 'employee':
+                from view.employee_view import EmployeeView
+                self.employee = EmployeeView(user_or_message.username)
+
+            msg.showinfo('Success!','welcome!')
         else:
-            msg.showerror('Error!',message)
+            msg.showerror('Error!','username not found')
 
 
     def exit_btn(self):
@@ -30,34 +38,29 @@ class UserView:
         self.win.geometry("400x500")
         self.win.title('Todo List')
 
-        bg=Image.open('bg6.jpg')
+        current_dir = os.path.dirname(__file__)  # مسیر فعلی فایل user_view.py
+        image_path = os.path.join(current_dir, 'bg6.jpg')
+        bg = Image.open(image_path)
         bg = bg.resize((400,600))
         self.bg_img=ImageTk.PhotoImage(bg)
 
         bg_label = Label(self.win,image=self.bg_img)
         bg_label.place(x=-2,y=0)
 
-        self.name = StringVar()
-        self.family = StringVar()
         self.username = StringVar()
         self.password = StringVar()
-        self.role = BooleanVar()
+        self.role = StringVar(value='employee')
 
-        Label(self.win, text='Name :',bg="LightSkyBlue4").place(x=99, y=60)
-        Entry(self.win, textvariable=self.name).place(x=150, y=60)
 
-        Label(self.win, text='Family :',bg="LightSkyBlue4").place(x=96, y=100)
-        Entry(self.win, textvariable=self.family).place(x=150, y=100)
+        Label(self.win, text='Username :',bg="LightSkyBlue4").place(x=79, y=120)
+        Entry(self.win, textvariable=self.username).place(x=150, y=120)
 
-        Label(self.win, text='Username :',bg="LightSkyBlue4").place(x=79, y=140)
-        Entry(self.win, textvariable=self.username).place(x=150, y=140)
-
-        Label(self.win, text='Password :',bg="LightSkyBlue4").place(x=83, y=180)
-        Entry(self.win, textvariable=self.password).place(x=150, y=180)
+        Label(self.win, text='Password :',bg="LightSkyBlue4").place(x=83, y=160)
+        Entry(self.win, textvariable=self.password).place(x=150, y=160)
 
         Label(self.win, text='Role :',bg="LightSkyBlue4").place(x=110, y=220)
-        Checkbutton(self.win, text='ceo',variable= self.role,bg="LightSkyBlue4").place(x=150, y=220)
-        Checkbutton(self.win, text='employee',variable= self.role,bg="LightSkyBlue4").place(x=210, y=220)
+        ttk.Combobox(self.win, textvariable=self.role,values=['ceo','employee'],state='readonly').place(x=150, y=220)
+
 
         Button(self.win, text='enter',command=self.enter_btn,bg="seashell").place(x=100, y=335, width=80, height=30)
         Button(self.win, text='exit',command=self.exit_btn,bg="seashell").place(x=220, y=335, width=80, height=30)
@@ -66,5 +69,3 @@ class UserView:
 
 
 userview = UserView()
-
-#todo:role
