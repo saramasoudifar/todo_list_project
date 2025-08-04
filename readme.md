@@ -21,16 +21,6 @@ How to Run:
 2.Open the project in your Python IDE (e.g., PyCharm, VSCode)
 3.Run the main Python file
 
-
-Project Structure:
-
-
-
-
-
-
-
-
  Roles:
 
 CEO:
