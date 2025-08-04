@@ -4,6 +4,8 @@ from PIL import Image, ImageTk
 import tkinter.messagebox as msg
 import os
 
+from controller.todolist_controller import TodoListController
+
 
 class EmployeeView:
     def save_btn(self):
@@ -19,7 +21,7 @@ class EmployeeView:
 
         self.employee_username = StringVar(value=username)
 
-        current_dir = os.path.dirname(__file__)  # مسیر فعلی فایل user_view.py
+        current_dir = os.path.dirname(__file__)
         image_path = os.path.join(current_dir, 'v4.jpg')
         bg = Image.open(image_path)
         bg = bg.resize((800, 570))
@@ -32,7 +34,12 @@ class EmployeeView:
         Entry(self.win, state='readonly', textvariable=self.employee_username).place(x=140, y=40)
 
         Label(self.win, text="TodoList :").place(x=500, y=410)
-        ttk.Combobox(self.win,state ='readonly').place(x=570, y=410)
+        self.list_id_combo = (ttk.Combobox(self.win,state ='readonly'))
+        self.list_id_combo.place(x=570, y=410)
+        todo_controller = TodoListController()
+        id_list = todo_controller.todolist_id_by_username(self.employee_username.get())
+        self.win.mainloop['values']= id_list
+
 
         self.table = ttk.Treeview(self.win, columns=[1, 2, 3, 4], show='headings')
         self.table.place(x=80, y=110)
