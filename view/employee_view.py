@@ -14,12 +14,14 @@ class EmployeeView:
     def update_btn(self):
         pass
 
-    def __init__(self,username):
+    def __init__(self, username):
         self.win = Tk()
         self.win.title("Employee View")
         self.win.geometry("800x570")
 
         self.employee_username = StringVar(value=username)
+        self.date = StringVar()
+        self.list_id = IntVar()
 
         current_dir = os.path.dirname(__file__)
         image_path = os.path.join(current_dir, 'v4.jpg')
@@ -33,13 +35,20 @@ class EmployeeView:
         Label(self.win, text="username :").place(x=70, y=40)
         Entry(self.win, state='readonly', textvariable=self.employee_username).place(x=140, y=40)
 
+        Label(self.win, text="TodoList id :").place(x=70, y=80)
+        Entry(self.win, textvariable=self.list_id, state='readonly').place(x=140, y=80)
+
+
+        Label(self.win, text="date :").place(x=540, y=80)
+        Entry(self.win, textvariable=self.date, state='readonly').place(x=580, y=80)
+
+
         Label(self.win, text="TodoList :").place(x=500, y=410)
-        self.list_id_combo = (ttk.Combobox(self.win,state ='readonly'))
+        self.list_id_combo = (ttk.Combobox(self.win, state='readonly'))
         self.list_id_combo.place(x=570, y=410)
         todo_controller = TodoListController()
-        id_list = todo_controller.todolist_id_by_username(self.employee_username.get())
-        self.win.mainloop['values']= id_list
-
+        id_list = todo_controller.todolist_id_by_username(self.employee_username)
+        self.list_id_combo['values'] = id_list
 
         self.table = ttk.Treeview(self.win, columns=[1, 2, 3, 4], show='headings')
         self.table.place(x=80, y=110)
@@ -55,7 +64,7 @@ class EmployeeView:
         self.table.column(4, width=150)
 
         Button(self.win, text='Save', command=self.save_btn).place(x=90, y=400, height=40, width=100)
-        Button(self.win , text='Update', command=self.update_btn).place(x=220, y=400, height=40, width=100)
+        Button(self.win, text='Update', command=self.update_btn).place(x=220, y=400, height=40, width=100)
 
         self.win.mainloop()
 
