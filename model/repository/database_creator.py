@@ -1,6 +1,10 @@
 import sqlite3
+import os
 
-connection = sqlite3.connect('todolist_db.sqlite')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(current_dir, 'todolist_db.sqlite')
+
+connection = sqlite3.connect(db_path)
 cursor = connection.cursor()
 
 cursor.execute('''

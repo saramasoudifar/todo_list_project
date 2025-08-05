@@ -55,7 +55,7 @@ class UserView:
         Entry(self.win, textvariable=self.username).place(x=150, y=120)
 
         Label(self.win, text='Password :',bg="LightSkyBlue4").place(x=83, y=160)
-        Entry(self.win, textvariable=self.password).place(x=150, y=160)
+        Entry(self.win, textvariable=self.password,show='*').place(x=150, y=160)
 
         Label(self.win, text='Role :',bg="LightSkyBlue4").place(x=110, y=220)
         ttk.Combobox(self.win, textvariable=self.role,values=['ceo','employee'],state='readonly').place(x=150, y=220)
