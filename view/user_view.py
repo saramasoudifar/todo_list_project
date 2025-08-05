@@ -15,15 +15,14 @@ class UserView:
             self.role.get()
         )
         if status:
+            msg.showinfo('Success!', 'welcome!')
             self.win.destroy()
             if  user_or_message.role == 'ceo':
                 from view.ceo_view import CeoView
                 self.ceo = CeoView()
-            if user_or_message.role == 'employee':
+            elif user_or_message.role == 'employee':
                 from view.employee_view import EmployeeView
                 self.employee = EmployeeView(user_or_message.username)
-
-            msg.showinfo('Success!','welcome!')
         else:
             msg.showerror('Error!','username not found')
 

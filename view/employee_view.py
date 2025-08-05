@@ -10,32 +10,79 @@ from controller.todolist_controller import TodoListController
 
 class EmployeeView:
     def save_btn(self):
-        pass
+        if not self.selected_task_id:
+            msg.showerror("Error", "Please select a task first.")
+            return
+
+        new_status = self.is_done.get()
+
+        task_controller = TaskController()
+        status, message = task_controller.update_status_only(self.selected_task_id, new_status)
+
+        if status:
+            msg.showinfo("Success", message)
+            self.load_tasks(None)
+        else:
+            msg.showerror("Error", message)
 
     def update_btn(self):
-        pass
+        selected_list_id = self.list_id_combo.get()
+        if not selected_list_id:
+            msg.showerror('Error', 'Please select a TodoList first.')
+            return
+        self.load_tasks(None)
+
 
     def load_tasks(self, event):
         selected_list_id = self.list_id_combo.get()
+
+        if not selected_list_id:
+            return
+
         self.table.delete(*self.table.get_children())
 
         task_controller = TaskController()
-        status, tasks = task_controller.find_by_id(int(selected_list_id))
+        status, tasks = task_controller.get_tasks_by_list_id(int(selected_list_id))
 
         if status:
             for task in tasks:
-                self.table.insert('', END, values=(task.task_id,task.title, task.description, task.deadline,
-                                                   'done' if task.is_done else 'not done'))
+                self.table.insert('', END, values=(
+                    task.task_id,
+                    task.title,
+                    task.description,
+                    task.deadline,
+                    'done' if task.is_done else 'not done'
+                ))
+        else:
+            msg.showerror('Error', 'No tasks found for this list.')
+
+
+
+    def table_select(self,event):
+        selected = self.table.focus()
+        if not selected:
+            return
+        values = self.table.item(selected, 'values')
+
+        self.selected_task_id = values[0]
+        status_text = values[4]
+        self.is_done.set(status_text == 'done')
+
+
 
     def __init__(self, username):
         self.win = Tk()
         self.win.title("Employee View")
         self.win.geometry("850x570")
 
+        self.username = username
         self.employee_username = StringVar()
         self.employee_username.set(username)
+
         self.date = StringVar()
         self.list_id = IntVar()
+
+        self.is_done = BooleanVar()
 
         current_dir = os.path.dirname(__file__)
         image_path = os.path.join(current_dir, 'v4.jpg')
@@ -60,11 +107,20 @@ class EmployeeView:
         Label(self.win, text="TodoList :").place(x=500, y=410)
         self.list_id_combo = (ttk.Combobox(self.win, state='readonly'))
         self.list_id_combo.place(x=570, y=410)
+
         todo_controller = TodoListController()
-        id_list = todo_controller.todolist_id_by_username(self.employee_username.get())
-        self.list_id_combo['values'] = id_list
+        status , id_list = todo_controller.todolist_id_by_username(self.username)
+        if status:
+            self.list_id_combo['values'] = id_list
+        else:
+            self.list_id_combo['values'] = []
 
         self.list_id_combo.bind("<<ComboboxSelected>>", self.load_tasks)
+
+
+        self.is_done_box = ttk.Checkbutton(self.win, text="Done✅", variable=self.is_done , onvalue=True, offvalue=False)
+        self.is_done_box.place(x=400, y=410)
+        #todo
 
         self.table = ttk.Treeview(self.win, columns=[1, 2, 3, 4,5], show='headings')
         self.table.place(x=70, y=110)

@@ -1,5 +1,6 @@
 from model.business_logic.task_bl import TaskBl
 from model.entity.task import Task
+from model.repository.task_repository import TaskRepository
 
 
 class TaskController:
@@ -60,4 +61,13 @@ class TaskController:
             return True, tasks
         except Exception as e:
             return False, f'Error: {str(e)}'
+
+    def update_status_only(self, task_id, is_done):
+        try:
+            task_bl = TaskBl()
+            task_bl.update_status_only(task_id, is_done)
+            return True, 'Task saved successfully'
+        except Exception as e:
+            return False, f'Error: {str(e)}'
+
 

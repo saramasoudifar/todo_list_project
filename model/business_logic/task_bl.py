@@ -46,3 +46,9 @@ class TaskBl:
             return tasks
         else:
             raise ValueError('TodoList not found')
+
+    def update_status_only(self, task_id, is_done):
+        task_rep = TaskRepository()
+        task_rep.update_status_only(task_id, is_done)
+
+

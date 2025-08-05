@@ -50,6 +50,7 @@ class CeoView:
             todo_list.add_task(task)
         else:
             msg.showerror('Error!', 'Task could not be added!')
+        self.clear_btn()
 
     def save_btn(self):
         list_controller = TodoListController()
@@ -62,6 +63,10 @@ class CeoView:
             msg.showinfo('Success!', 'Task saved successfully!')
         else:
             msg.showerror('Error!', 'Task could not be saved!')
+        self.clear_btn()
+
+
+#todo:nmidonm chejori benevisam ke task be list add beshe
 
 
 
@@ -82,6 +87,7 @@ class CeoView:
         if not selected_item:
             msg.showerror('Error', 'Please select a task to edit.')
             return
+
         task_controller = TaskController()
         status, message = task_controller.edit(
             self.task_id.get(),
@@ -89,16 +95,19 @@ class CeoView:
             self.description_text.get("1.0", END).strip(),
             self.deadline.get(),
             self.assigned_to.get(),
-            self.is_done.get()
+            self.list_id.get(),
+            int(self.is_done.get())
         )
+
         if status:
-            self.table.item('', values=(
+            self.table.item(selected_item, values=(
                 self.task_id.get(),
                 self.title.get(),
                 self.description_text.get("1.0", END).strip(),
                 self.deadline.get(),
                 self.assigned_to.get(),
-                self.is_done.get()
+                self.list_id.get(),
+                'done' if self.is_done.get() else 'not done'
             ))
             msg.showinfo('Success!', 'Task edited successfully!')
         else:

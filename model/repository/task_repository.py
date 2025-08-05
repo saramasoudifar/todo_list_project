@@ -22,8 +22,8 @@ class TaskRepository():
     def edit(self, task):
         self.connect()
         self.cursor.execute(
-            'update user set title = ?, description = ?, deadline = ?, assigned_to = ?,list_id=? ,is_done =? where task_id = ?',
-            [task.task_id, task.title, task.description, task.deadline, task.assigned_to, int(task.is_done)])
+            'update tasks set title = ?, description = ?, deadline = ?, assigned_to = ?,list_id=? ,is_done =? where task_id = ?',
+            [task.title, task.description, task.deadline, task.assigned_to,task.list_id, int(task.is_done),task.task_id])
         self.disconnect(commit=True)
 
     def delete(self, task_id):
@@ -58,3 +58,9 @@ class TaskRepository():
         tasks = self.cursor.fetchall()
         self.disconnect()
         return tasks
+
+    def update_status_only(self, task_id, is_done):
+        self.connect()
+        self.cursor.execute('update tasks set is_done = ? where task_id = ?', [is_done, task_id])
+        self.disconnect(commit=True)
+
